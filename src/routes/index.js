@@ -3,6 +3,7 @@ const router = express.Router();
 
 // router.use('/', require('./authentication'));
 router.use('/customer', require('./customer'));
+router.use('/supplier', require('./supplier'));
 
 // 404 - NOT FOUND
 router.use('/', (req, res) => {

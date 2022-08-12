@@ -1,56 +1,57 @@
-const Customers = require('./model.js');
+const Suppliers = require('./model.js');
 
 // Get All Data
-const getAllCustomer = async (req, res) => {
+const getAllSupplier = async (req, res) => {
 	// const {username, role} = req.payload;
   
-	const customers = await Customers.findAll({
-    attributes: ['id', 'name', 'email']
+	const suppliers = await Suppliers.findAll({
+    attributes: ['id', 'name', 'address', 'phone', 'pic']
   });
 
 	res.status(200).send({
 		"status": "success",
 	    "data": {
-	    	"customers": customers
+	    	"suppliers": suppliers
 		}
 	});
 }
 
 // Get Data by ID
-const getCustomerById = async (req, res) => {
+const getSupplierById = async (req, res) => {
   const {id} = req.params;
-  const customer = await Customers.findByPk(
+  const supplier = await Suppliers.findByPk(
     id,
-    { attributes: ['id', 'name', 'email'] }
+    { attributes: ['id', 'name', 'address', 'phone', 'pic'] }
   );
 
-  if (customer !== null) {
+  if (supplier !== null) {
     res.status(200).send( {
       status: 'success',
       data: {
-        customer,
+        supplier,
       },
     });
   } else {
     res.status(404).send( {
       status: 'fail',
-      message: 'Customer is not exist.'
+      message: 'Supplier is not exist.'
     });
   }
+
 }
 
 //Add New
-const addCustomer = async (req, res) => {
-  const {name, email} = req.body; 
-  const data = {name, email};
+const addSupplier = async (req, res) => {
+  const {name, address, phone, pic} = req.body; 
+  const data = {name, address, phone, pic};
 
   try {
-    const customer = await Customers.create(data);
+    const supplier = await Suppliers.create(data);
 
     res.status(200).send( {
         status: 'success',
         data: {
-          id: customer.id
+          id: supplier.id
         }
     });
   } catch(error) {
@@ -61,23 +62,23 @@ const addCustomer = async (req, res) => {
   }
 }
 
-const updateCustomer = async (req, res) => {
+const updateSupplier = async (req, res) => {
   const {id} = req.params;
-  const {name, email} = req.body; 
-  const data = {name, email};
+  const {name, address, phone, pic} = req.body; 
+  const data = {name, address, phone, pic};
 
   try {
-    const customer = await Customers.update( data, { where: {id} });
+    const supplier = await Suppliers.update( data, { where: {id} });
 
-    if (customer[0] === 1) {
+    if (supplier[0] === 1) {
       res.status(200).send( {
           status: 'success',
-          message: 'Customer data has been updated'
+          message: 'Supplier data has been updated'
       });
     } else {
       res.status(404).send( {
           status: 'fail',
-          message: 'Customer data failed to update'
+          message: 'Supplier data failed to update'
       });
     }
   } catch(error) {
@@ -88,12 +89,12 @@ const updateCustomer = async (req, res) => {
   }
 }
 
-const deleteCustomerById = async (req, res) => {
+const deleteSupplierById = async (req, res) => {
   const {id} = req.params;
-  const customer = await Customers.findByPk(id);
+  const supplier = await Suppliers.findByPk(id);
 
-  if (customer !== null) {
-    await Customers.destroy({ where: {id} });
+  if (supplier !== null) {
+    await Suppliers.destroy({ where: {id} });
 
     res.status(200).send( {
         status: 'success',
@@ -117,9 +118,9 @@ function getError(errors) {
 }
 
 module.exports = { 
-  getAllCustomer, 
-  getCustomerById,
-  addCustomer,
-  updateCustomer,
-  deleteCustomerById
+  getAllSupplier, 
+  getSupplierById,
+  addSupplier,
+  updateSupplier,
+  deleteSupplierById
 }
